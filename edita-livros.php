@@ -1,13 +1,12 @@
 <?php
 
+require_once "config.php";
+
 $id = $_GET['id'];
 
-$conn = new PDO("mysql:host=localhost;dbname=biblioteca", 'root', '1234');
+$dao = new LivroPersistencia();
 
-$stmt = $conn->prepare("select * from livros where id_livro = :ID");
-$stmt->bindParam(":ID", $id);
-$stmt->execute();
-$res = $stmt->fetch();
+$res = $dao::buscarPorId($id);
 
 ?>
 <html lang="pt-br">

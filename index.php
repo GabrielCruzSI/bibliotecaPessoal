@@ -1,10 +1,10 @@
 <?php 
 
-$conn = new PDO("mysql:host=localhost;dbname=biblioteca", 'root', '1234');
+require_once "class/LivroPersistencia.php";
 
-$stmt = $conn->prepare("select * from livros");
-$stmt->execute();
-$res = $stmt->fetchAll();
+$dao = new LivroPersistencia();
+
+$res = $dao::listagemLivros();
 ?>
 
 <html lang="pt-br">
