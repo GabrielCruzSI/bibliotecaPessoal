@@ -1,10 +1,13 @@
 <?php 
 
-require_once "class/LivroPersistencia.php";
+require_once "config.php";
 
-$dao = new LivroPersistencia();
+$dao       = new LivroPersistencia();
+$paginacao = new Paginacao();
 
-$res = $dao::listagemLivros();
+$paginacao->setN_Da_Pagina($_POST['pagina']);
+
+$livros = $dao::listagemLivros($paginacao->getElementos_Por_Pagina(), $paginacao->getN_Da_Pagina());
 ?>
 
 <html lang="pt-br">
@@ -33,7 +36,7 @@ $res = $dao::listagemLivros();
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
         </div>
       </div>
     </nav>
@@ -41,8 +44,9 @@ $res = $dao::listagemLivros();
     <main role="main" class="container">
       
       <div class="row">
-          <h3 class="display-3">Minha Bilioteca</h3>
-          <p class="lead">Com a "Minha Biblioteca" você pode cadastrar, editar, excluir e listar seus livros pessoais.</p>
+          <h3 class="display-5">Minha Bilioteca</h3>
+          <br>
+          <!-- <p class="lead-3">Com a "Minha Biblioteca" você pode cadastrar, editar, excluir e listar seus livros pessoais.</p> -->
       </div>
       <div class="row">
         <div class="form-group">
@@ -61,30 +65,45 @@ $res = $dao::listagemLivros();
             </tr>
           </thead>
           <tbody>
-            <?php foreach($res as $livro):?>
+            <?php foreach($livros as $livro):?>
               <tr>
                 <td><img width='30' src="<?php echo $livro['imagem'] ?>" alt=""></td>
                 <td><?php echo $livro['nome'] ?></td>
                 <td><?php echo $livro['autor'] ?></td>
                 <td><?php echo $livro['n_de_paginas'] ?></td>
-                <td><a href="edita-livros.php?id=<?php echo $livro['id_livro'] ?>" class='btn btn-info'><i class="fas fa-edit"></i></a><a href="deleta-livro.php?id=<?php echo $livro['id_livro'] ?>" class='btn btn-danger ml-1'><i class="fas fa-trash"></i></a></td>
+                <td>
+                  <a href="edita-livros.php?id=<?php echo $livro['id_livro'] ?>" class='btn btn-info'>
+                    <i class="fas fa-edit"></i>
+                  </a>
+
+                  <a href="deleta-livro.php?id=<?php echo $livro['id_livro'] ?>" class='btn btn-danger ml-1'>
+                    <i class="fas fa-trash"></i>
+                  </a>
+                </td>
               </tr>
             <?php endforeach;?>
           </tbody>
         </table>
       </div>
-      
-
+      <footer class="fixed-bottom">
+        <div class="row align-items-center justify-content-center">
+          <?php for($i = 0; $i < $paginacao->getN_De_Paginas(); $i++): ?>
+            <form action="/" method="POST">
+              <input type="hidden" name="pagina" value="<?php echo $i + 1?>" />
+              <button type="submit" class="btn <?php if(($i + 1) == $paginacao->getN_Da_Pagina()){ echo "btn-selected"; } else { echo "btn-primary";} ?> btn-xs ml-1">
+                  <?php echo $i + 1; ?>
+              </button>
+            </form>            
+          <?php endfor; ?>
+        </div>
+      </footer>
   </main>
 
-    
-
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  
-  </body>
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script src="js/script.js"></script>    
+</body>
 </html>

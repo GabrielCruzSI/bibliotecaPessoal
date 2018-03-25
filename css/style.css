@@ -5,6 +5,8 @@ body {
   }
   
 
-.line-height{
-    line-height: ;
+.btn-selected
+{
+    background: gray;
+    color: white;
 }

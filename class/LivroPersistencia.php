@@ -4,9 +4,12 @@ require_once "config.php";
 
 class LivroPersistencia extends DAO
 {
-    public static function listagemLivros()
+    public static function listagemLivros($elementos_por_pagina, $n_pagina = 1)
     {   
-        $sql    = "SELECT * FROM livros";
+        if ($n_pagina > 0) {
+            $n_pagina             = $elementos_por_pagina * ($n_pagina - 1);
+        }
+        $sql    = "SELECT * FROM livros ORDER BY nome LIMIT $n_pagina , $elementos_por_pagina";
         return parent::list($sql);
     }
 
