@@ -7,7 +7,7 @@ class DAO
 
     public function __construct()
     {
-        DAO::$conn  = new PDO("mysql:host=localhost;dbname=biblioteca", 'root', '1234');
+        DAO::$conn  = new PDO("mysql:host=localhost;dbname=biblioteca", 'root', 'root');
         
     }
 

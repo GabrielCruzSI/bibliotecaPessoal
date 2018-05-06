@@ -5,9 +5,15 @@ require_once "config.php";
 $dao       = new LivroPersistencia();
 $paginacao = new Paginacao();
 
-$paginacao->setN_Da_Pagina($_POST['pagina']);
+try {
 
-$livros = $dao::listagemLivros($paginacao->getElementos_Por_Pagina(), $paginacao->getN_Da_Pagina());
+    $numero_pagina = isset($_POST['pagina'])  ? $_POST['pagina'] : 1;
+    $paginacao->setN_Da_Pagina($numero_pagina);
+
+    $livros = $dao::listagemLivros($paginacao->getElementos_Por_Pagina(), $paginacao->getN_Da_Pagina());
+} catch (Exception $e) {
+    throw new Exception('Erro no carregamento da paginação!');
+}
 ?>
 
 <html lang="pt-br">
