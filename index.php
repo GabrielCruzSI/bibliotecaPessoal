@@ -1,5 +1,7 @@
 <?php 
 
+//echo phpinfo();exit;
+
 require_once "config.php";
 
 $dao       = new LivroPersistencia();

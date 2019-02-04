@@ -6,7 +6,7 @@ $id = $_GET['id'];
 
 $dao = new LivroPersistencia();
 
-$res = $dao::buscarPorId($id);
+$res = $dao->buscarPorId($id);
 
 ?>
 <html lang="pt-br">

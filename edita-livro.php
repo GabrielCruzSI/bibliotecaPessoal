@@ -15,13 +15,13 @@ if(empty($img['name'])){
     $livro->setAutor($_POST['autor']);
     $livro->setN_de_paginas($_POST['n_de_paginas']);
 
-    $dao::editarLivro($id, $livro);
+    $dao->editarLivro($id, $livro);
 
     header("Location: index.php");
 }else{
     
-    $sql    = "select imagem from livros where id_livro = :ID";
-    $imagem = $dao::searchForId($sql, $id);
+    $sql    = "select imagem from livros where id_livro = ?";
+    $imagem = $dao->searchForId($sql, $id);
     
     unlink($imagem['imagem']);
     
@@ -40,7 +40,7 @@ if(empty($img['name'])){
     $livro->setImagem($path_imagem);
     
     if(move_uploaded_file($img['tmp_name'], $path_imagem)){
-        $dao::editarLivro($id, $livro);
+        $dao->editarLivro($id, $livro);
         header("Location: index.php");
     }else{
         throw new Exception("Erro ao enviar dormulário!");

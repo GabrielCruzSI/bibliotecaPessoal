@@ -6,8 +6,8 @@ $dao = new LivroPersistencia();
 
 $id = $_GET['id'];
 
-$dao::deletaLivro($id);
+$dao->deletaLivro($id);
 
-header("Location: index.php");
+header("Location: /");
 
 ?>

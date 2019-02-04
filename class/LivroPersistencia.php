@@ -21,13 +21,13 @@ class LivroPersistencia extends DAO
      */
     public function cadastrarLivro(Livro $livro)
     {
-        $sql    = "insert into livros values (null,:NOME, :AUTOR, :N_DE_PAGINAS, :IMAGEM)";
+        $sql    = "insert into livros (nome, autor, imagem, n_de_paginas) values (? , ? , ?, ?)";
 
         $data = [
-            'NOME'         => $livro->getNome(),
-            'AUTOR'        => $livro->getAutor(),
-            'N_DE_PAGINAS' => $livro->getN_De_Paginas(),
-            'IMAGEM'       => $livro->getImagem(),
+            $livro->getNome(),
+            $livro->getAutor(),
+            $livro->getImagem(),
+            $livro->getN_De_Paginas(),
         ];
 
         $this->insert($sql, $data);
@@ -72,7 +72,7 @@ class LivroPersistencia extends DAO
      * @return mixed
      */
     public function buscarPorId($id){
-        $sql    = "select * from livros where id_livro = :ID";
+        $sql    = "select * from livros where id_livro = ?";
         return $this->searchForId($sql,$id);
     }
 }
