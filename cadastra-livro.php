@@ -1,5 +1,6 @@
 <?php 
 
+
 require_once "config.php";
 
 $dao = new LivroPersistencia();
@@ -23,7 +24,7 @@ $livro->setImagem($path_imagem);
 
 
 if(move_uploaded_file($imagem['tmp_name'], $path_imagem)){
-    $dao::cadastrarLivro($livro);
+    $dao->cadastrarLivro($livro);
     header("Location: index.php");
 }else{
     throw new Exception("Erro ao enviar dormulário!");

@@ -1,7 +1,5 @@
 <?php
 
-require_once "config.php";
-
 class Paginacao 
 {
     private $total_de_elemetos;
@@ -11,9 +9,9 @@ class Paginacao
 
     public function __construct($elementos_por_pagina = 6)
     {
-        $dao = new DAO();
+        $dao = new LivroPersistencia();
         $sql = "SELECT COUNT(*) as 'total' FROM livros";
-        $total_de_linhas = $dao::list($sql);
+        $total_de_linhas = $dao->list($sql);
         $this->setTotal_De_Elementos($total_de_linhas[0]['total']);
         $this->setElementos_Por_Pagina($elementos_por_pagina);
         $this->setN_De_Paginas();

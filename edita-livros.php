@@ -22,7 +22,7 @@ $res = $dao::buscarPorId($id);
       <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet"> 
       
        <!-- Style CSS -->
-       <link href="css/style.css" rel="stylesheet"> 
+       <link href="css/style.css" rel="stylesheet">
       
       <title>Minha Biblioteca</title>
     </head>

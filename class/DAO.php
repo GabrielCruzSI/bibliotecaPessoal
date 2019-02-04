@@ -1,51 +1,87 @@
 <?php
 
-class DAO 
+abstract class DAO
 {
+    /**
+     * @var \Zend\Db\Adapter\Driver\Pdo\Pdo
+     */
     private $conexao;
-    public static $conn;
 
+    /**
+     * DAO constructor.
+     */
     public function __construct()
     {
-        DAO::$conn  = new PDO("mysql:host=localhost;dbname=biblioteca", 'root', 'root');
-        
+        $this->conexao = new \PDO("mysql:host=localhost;dbname=biblioteca", 'root', 'root');
     }
 
-    public static function list($sql)
+    /**
+     * @return PDO
+     */
+    public function getConnection()
+    {
+        if (!$this->conexao) {
+            $this->conexao = new \PDO("mysql:host=localhost;dbname=biblioteca", 'root', 'root');
+        }
+
+        return $this->conexao;
+    }
+
+    /**
+     * @param $sql
+     * @return array
+     */
+    public function list($sql)
     {   
         $query   = $sql;
-        $stmt    = DAO::$conn->prepare($query);
+        $stmt    = $this->getConnection()->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll();
     }
 
-    public static function searchForId($sql, $id)
+    /**
+     * @param $sql
+     * @param $id
+     * @return mixed
+     */
+    public function searchForId($sql, $id)
     {   
         $query   = $sql;
-        $stmt    = DAO::$conn->prepare($query);
+        $stmt    = $this->getConnection()->prepare($query);
         $stmt->bindParam(":ID", $id);
         $stmt->execute();
         return $stmt->fetch();
     }
 
-    public static function insert($sql, $data)
+    /**
+     * @param $sql
+     * @param $data
+     */
+    public function insert($sql, $data)
     {   
         $query   = $sql;
-        $stmt    = DAO::$conn->prepare($query);
+        $stmt    = $this->getConnection()->prepare($query);
         $stmt->execute($data);
     }
 
-    public static function edit($sql, $data)
+    /**
+     * @param $sql
+     * @param $data
+     */
+    public function edit($sql, $data)
     {   
         $query   = $sql;
-        $stmt    = DAO::$conn->prepare($query);
+        $stmt    = $this->getConnection()->prepare($query);
         $stmt->execute($data);
     }
 
-    public static function delete($id)
+    /**
+     * @param $id
+     */
+    public function delete($id)
     {
         $query   = "DELETE FROM livros WHERE id_livro = :ID";
-        $stmt    = DAO::$conn->prepare($query);
+        $stmt    = $this->getConnection()->prepare($query);
         $stmt->bindParam(":ID", $id);
         $stmt->execute();
     }
